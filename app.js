@@ -68,18 +68,14 @@ const galleryItems = [
 
 
 
-
-
-
-
 //   Создание и рендер разметки по массиву данных galleryItems из app.js и предоставленному шаблону.
 
 
 const gallery = document.querySelector('.gallery');
 
-const masiv = galleryFoto(galleryItems);
+const arrayMasiv = galleryFoto(galleryItems);
 
-gallery.insertAdjacentHTML('beforeend', masiv);
+gallery.insertAdjacentHTML('beforeend', arrayMasiv);
 
 function galleryFoto(items) {
 return items.map(({preview, original, description }) => {
@@ -103,109 +99,91 @@ return `
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-// }
-// elements => {return galleryItems.map(({preview,original,description}) => {
-//   return  `
-//   <li class="gallery__item">
-//     <a 
-//       class="gallery__link"
-//       href="${original}"   
-//     >
-//       <img
-//          class="gallery__image"
-//         src="${preview}"      
-//         data-source="${original}"     
-//         alt="${description}"   
-//       />
-//     </a>
-//   </li>
-  
-//   `
-// }).join('');
-
-// }
-
-// console.log(masiv);
-
-
-// const gallery = document.querySelector('#gallery');
-  
-// const fotoGallery = elements => {return elements.map(({url,alt}) => {
-  
-//     return `<li><img src="${url}" alt="${alt}" width="450px" height="300px"></li>`
-
-//   }).join('')
-// }
-
-
-
-
-
-
-
-// const galleryList = document.querySelector();
-// console.log();
-
-
-// const gallery = document.querySelector(".gallery");
-
-
-
-// <li class="gallery__item">
-//   <a
-//     class="gallery__link"
-//     href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//   >
-//     <img
-//       class="gallery__image"
-//       src="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546__340.jpg"
-//       data-source="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//       alt="Tulips"
-//     />
-//   </a>
-// </li>
-
-
-
-
-
-
-
-
-
-//   Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
-
 //   Открытие модального окна по клику на элементе галереи.
 
+
+ 
+  
+ 
+  const modal = document.querySelector('.lightbox__content');
+  const lightbox__image = document.querySelector('.lightbox__image');
+const lightbox = document.querySelector('.lightbox');
+ const button = document.querySelector('[data-action="close-lightbox"]');
+
 //   Подмена значения атрибута src элемента img.lightbox__image.
+ const image = document.createElement('img');
+
+image.classList.add('gallery__image');
+
+gallery.addEventListener('click', onGalleryClick);
+button.addEventListener('click', onClickHandlerClose);
+modal.addEventListener('click', closeLightbox);
+
+
+
+
+function onGalleryClick(e) {
+  e.preventDefault()
+  if (e.target.nodeName !== 'IMG') {
+    return
+  }
+  if (e.target.nodeName === 'IMG') {
+   lightbox.classList.add('is-open')
+   lightbox__image.src = e.target.getAttribute('data-source')
+    lightbox__image.alt = e.target.alt
+  }
+  window.addEventListener('keyup', clickKey)
+};
+
+
+function onClickHandlerClose(e) {
+  e.preventDefault()
+ lightbox.classList.remove('is-open')
+  lightbox__image.src = ''
+ lightbox__image.alt = ''
+  window.removeEventListener('keyup', clickKey)
+};
+
 
 //   Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
 
-//   Очистка значения атрибута src элемента img.lightbox__image. Это необходимо для того, 
-//   чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
+function closeLightbox(event) {
+  if (event.target === event.currentTarget) {
+    onClickHandlerClose()
+  }
+};
+
+function clickKey(event) {
+  if (event.code === 'Escape') {
+    onClickHandlerClose()
+  }
+};
 
 
-// <li class="gallery__item">
-//   <a
-//     class="gallery__link"
-//     href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//   >
-//     <img
-//       class="gallery__image"
-//       src="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546__340.jpg"
-//       data-source="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//       alt="Tulips"
-//     />
-//   </a>
-// </li>
+
+modal.addEventListener( 'click',  (e) => {
+  const condition = e.target.classList.contains('backDrop')
+  if (condition) { modal.classList.add('isHidden')}
+})
+
+
+window.addEventListener('keydown', (e) =>{
+  const condition = e.code === 'Escape' || e.code === 'ArrowLeft' || e.code === 'ArrowRight'
+ console.log(e.code === 'Escape')
+ if (condition) { modal.classList.add('isHidden')}
+});
+
+
+
+
+
+// function showElement(element) {
+//   element.classList.remove('isHidden')
+// }
+
+// function hideElement(element) {
+//   element.classList.add('isHidden')
+// }
+ 
+
+
