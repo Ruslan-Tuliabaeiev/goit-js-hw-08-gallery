@@ -106,11 +106,11 @@ return `
   
  
   const modal = document.querySelector('.lightbox__content');
-  const lightbox__image = document.querySelector('.lightbox__image');
+  const lightboxImage = document.querySelector('.lightbox__image');
 const lightbox = document.querySelector('.lightbox');
  const button = document.querySelector('[data-action="close-lightbox"]');
 
-//   Подмена значения атрибута src элемента img.lightbox__image.
+
  const image = document.createElement('img');
 
 image.classList.add('gallery__image');
@@ -129,23 +129,22 @@ function onGalleryClick(e) {
   }
   if (e.target.nodeName === 'IMG') {
    lightbox.classList.add('is-open')
-   lightbox__image.src = e.target.getAttribute('data-source')
-    lightbox__image.alt = e.target.alt
+   lightboxImage.src = e.target.getAttribute('data-source')
+    lightboxImage.alt = e.target.alt
   }
   window.addEventListener('keyup', clickKey)
 };
 
 
 function onClickHandlerClose(e) {
-  e.preventDefault()
+
  lightbox.classList.remove('is-open')
-  lightbox__image.src = ''
- lightbox__image.alt = ''
+  lightboxImage.src = ''
+ lightboxImage.alt = ''
   window.removeEventListener('keyup', clickKey)
 };
 
 
-//   Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
 
 function closeLightbox(event) {
   if (event.target === event.currentTarget) {
@@ -154,7 +153,7 @@ function closeLightbox(event) {
 };
 
 function clickKey(event) {
-  if (event.code === 'Escape') {
+  if (event.code === 'Escape' || event.code === 'Esc') {
     onClickHandlerClose()
   }
 };
@@ -167,11 +166,11 @@ modal.addEventListener( 'click',  (e) => {
 })
 
 
-window.addEventListener('keydown', (e) =>{
-  const condition = e.code === 'Escape' || e.code === 'ArrowLeft' || e.code === 'ArrowRight'
- console.log(e.code === 'Escape')
- if (condition) { modal.classList.add('isHidden')}
-});
+// window.addEventListener('keydown', (e) =>{
+//   const condition = e.code === 'Escape' || e.code === 'ArrowLeft' || e.code === 'ArrowRight'
+//  console.log(e.code === 'Escape')
+//  if (condition) { modal.classList.add('isHidden')}
+// });
 
 
 
